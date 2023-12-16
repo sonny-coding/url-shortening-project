@@ -1,9 +1,14 @@
 import express from "express";
 import cors from "cors";
+import * as dotenv from "dotenv";
 import bodyParser from "body-parser";
+import connect from "./mongodb/connect.js";
 import urlRoutes from "./routes/urlRoutes.js";
 
+const PORT = 3000;
 const app = express();
+
+dotenv.config();
 
 // middlewares
 app.use(cors());
@@ -25,8 +30,9 @@ app.post("/example", (req, res) => {
 
 const startServer = async () => {
   try {
-    app.listen(3000, () => {
-      console.log("Server started on port 3000");
+    connect(process.env.MONGODB_URL);
+    app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`);
     });
   } catch (error) {
     console.log(error);
