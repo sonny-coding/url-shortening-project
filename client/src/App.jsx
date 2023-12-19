@@ -25,6 +25,6 @@ export default function App() {
 /* 
 Things to do:
 
-copy function
+
 form-validation
 */

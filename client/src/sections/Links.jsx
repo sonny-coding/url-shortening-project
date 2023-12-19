@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import copy from "copy-text-to-clipboard";
 const Links = ({ addresses, setAddresses, refresh, setRefresh }) => {
+  const [isCopiedLink, setIsCopiedLink] = useState("");
   const fetchAddress = async () => {
     try {
       const url = "http://localhost:3000/api/url";
@@ -41,8 +43,16 @@ const Links = ({ addresses, setAddresses, refresh, setRefresh }) => {
               <p className="text-neutral-dark-violet">{address.long}</p>
               <p className="text-primary-cyan">{address.short}</p>
             </div>
-            <button className="w-full py-3 text-base font-bold text-white rounded-lg bg-primary-cyan">
-              Copy
+            <button
+              onClick={() => {
+                copy(address.short);
+                setIsCopiedLink(address._id);
+              }}
+              className={`w-full py-3 text-base font-bold text-white rounded-lg bg-primary-cyan ${
+                address._id === isCopiedLink ? "opacity-50" : "opacity-100"
+              }`}
+            >
+              {address._id === isCopiedLink ? "Copied!" : "Copy"}
             </button>
           </div>
         );
