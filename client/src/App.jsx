@@ -1,6 +1,7 @@
 import Nav from "./sections/Nav";
 import Hero from "./sections/Hero";
 import Shorten from "./sections/Shorten";
+import Links from "./sections/Links";
 export default function App() {
   // const handleSubmit = () => {
   //   alert("submit");
@@ -10,6 +11,7 @@ export default function App() {
       <Nav />
       <Hero />
       <Shorten />
+      <Links />
     </div>
   );
 }
