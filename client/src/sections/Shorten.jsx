@@ -1,7 +1,28 @@
-const Shorten = () => {
-  const handleSubmit = (e) => {
+// eslint-disable-next-line react/prop-types
+const Shorten = ({ address, setAddress }) => {
+  const handleChange = (e) => {
+    setAddress({ ...address, [e.target.name]: e.target.value });
+    console.log(address);
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Submit");
+
+    try {
+      const url = "http://localhost:3000/api/url";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // eslint-disable-next-line react/prop-types
+        body: JSON.stringify({ address: address.long }),
+      };
+      const response = await fetch(url, options);
+      const data = await response.json();
+      setAddress({ ...address, short: data.short });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div
@@ -16,7 +37,11 @@ const Shorten = () => {
         <input
           className="w-full p-4 rounded-lg text-[16px] leading-[20px] font-medium"
           type="text"
+          name="long"
+          // eslint-disable-next-line react/prop-types
+          value={address.long}
           placeholder="Shorten a link here..."
+          onChange={handleChange}
         />
         <button
           className="w-full p-4 mt-4 text-white rounded-lg bg-primary-cyan text-[18px] leading-[20px] font-bold"

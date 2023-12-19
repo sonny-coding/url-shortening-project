@@ -5,7 +5,7 @@ const Links = () => {
       {websites.map((each) => {
         return (
           <div
-            key={each.index}
+            key={each.longUrl}
             className="flex flex-col items-center justify-center w-full p-4 bg-white rounded-lg"
           >
             <div className="flex flex-col items-center justify-center w-full divide-y-[1px] text-[16px] leading-[36px] font-medium text-center [&>*]:w-full">

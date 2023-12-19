@@ -4,12 +4,15 @@ import Hero from "./sections/Hero";
 import Shorten from "./sections/Shorten";
 import Links from "./sections/Links";
 export default function App() {
-  const [website, setWebsite] = useState("");
+  const [address, setAddress] = useState({
+    long: "http://google.com",
+    short: "",
+  });
   return (
     <div className="w-full px-2 py-3 font-poppins bg-[#EFF1F7]">
       <Nav />
       <Hero />
-      <Shorten website={website} setWebsite={setWebsite} />
+      <Shorten address={address} setAddress={setAddress} />
       <Links />
     </div>
   );
