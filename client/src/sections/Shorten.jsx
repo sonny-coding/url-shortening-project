@@ -1,11 +1,32 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { urlValidatorString } from "../constants";
+
 // eslint-disable-next-line react/prop-types
 const Shorten = ({ input, setInput, setRefresh }) => {
-  const handleChange = (e) => {
-    setInput(e.target.value);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const schema = yup
+    .object({
+      userInput: yup.string("Must be a string").required("Please enter"),
+    })
+    .required("Please enter a website!");
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
+  //   const handleChange = (e) => {
+  //     setInput(e.target.value);
+  //   };
+
+  const onSubmit = async () => {
+    // e.preventDefault();
+
+    // console.log(getValues("input"));
     try {
       const url = "http://localhost:3000/api/url";
       const options = {
@@ -13,7 +34,7 @@ const Shorten = ({ input, setInput, setRefresh }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ address: input }),
+        body: JSON.stringify({ address: getValues("userInput") }),
       };
       const response = await fetch(url, options);
       const data = await response.json();
@@ -30,16 +51,18 @@ const Shorten = ({ input, setInput, setRefresh }) => {
     >
       <form
         action=""
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center justify-center w-full"
       >
         <input
           className="w-full p-4 rounded-lg text-[16px] leading-[20px] font-medium"
           type="text"
-          value={input}
+          //   value={input}
+          //   onChange={handleChange}
           placeholder="Shorten a link here..."
-          onChange={handleChange}
+          {...register("userInput", { required: true })}
         />
+        <p className="text-[40px]">{errors.userInput?.message}</p>
         <button
           className="w-full p-4 mt-4 text-white rounded-lg bg-primary-cyan text-[18px] leading-[20px] font-bold"
           type="submit"
