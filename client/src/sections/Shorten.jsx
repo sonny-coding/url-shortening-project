@@ -7,9 +7,12 @@ import { urlValidatorString } from "../constants";
 const Shorten = ({ input, setInput, setRefresh }) => {
   const schema = yup
     .object({
-      userInput: yup.string("Must be a string").required("Please enter"),
+      userInput: yup
+        .string("Must be a string")
+        .required("Please enter a website!")
+        .matches(urlValidatorString, "Please enter correct url!"),
     })
-    .required("Please enter a website!");
+    .required();
   const {
     register,
     handleSubmit,
