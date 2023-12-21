@@ -4,13 +4,13 @@ import * as yup from "yup";
 import { urlValidatorString } from "../constants";
 
 // eslint-disable-next-line react/prop-types
-const Shorten = ({ input, setInput, setRefresh }) => {
+const Shorten = ({ setRefresh }) => {
   const schema = yup
     .object({
       userInput: yup
         .string("Must be a string")
-        .required("Please enter a website!")
-        .matches(urlValidatorString, "Please enter correct url!"),
+        .required("Please add a link")
+        .matches(urlValidatorString, "Please use the correct url format"),
     })
     .required();
   const {
@@ -21,10 +21,6 @@ const Shorten = ({ input, setInput, setRefresh }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  //   const handleChange = (e) => {
-  //     setInput(e.target.value);
-  //   };
 
   const onSubmit = async () => {
     // e.preventDefault();
@@ -55,23 +51,35 @@ const Shorten = ({ input, setInput, setRefresh }) => {
       <form
         action=""
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center justify-center w-full"
+        className="flex flex-col items-center justify-center w-full gap-4 md:flex-row"
       >
-        <input
-          className="w-full p-4 rounded-lg text-[16px] leading-[20px] font-medium"
-          type="text"
-          //   value={input}
-          //   onChange={handleChange}
-          placeholder="Shorten a link here..."
-          {...register("userInput", { required: true })}
-        />
-        <p className="text-[40px]">{errors.userInput?.message}</p>
-        <button
-          className="w-full p-4 mt-4 text-white rounded-lg bg-primary-cyan text-[18px] leading-[20px] font-bold"
-          type="submit"
-        >
-          Shorten It!
-        </button>
+        <div className="flex flex-col items-start justify-center">
+          <input
+            className={`w-full p-4 rounded-lg text-[16px] leading-[20px] font-medium  ${
+              errors.userInput
+                ? "ring-2 focus:ring-secondary-red border:ring-secondary-red"
+                : "placeholder:text-neutral-gray"
+            } focus:outline-none placeholder:text-secondary-red`}
+            type="text"
+            //   value={input}
+            //   onChange={handleChange}
+            placeholder="Shorten a link here..."
+            {...register("userInput", { required: true })}
+          />
+          <div className="self-start w-full mt-2 min-h-[30px] ">
+            <p className="text-[12px] leading-[18px] italic font-medium text-secondary-red">
+              {errors.userInput?.message}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center justify-center w-auto h-full text-center">
+          <button
+            className={`w-full md:w-[188px] p-4 text-white rounded-lg bg-primary-cyan text-[18px] leading-[20px] font-bold`}
+            type="submit"
+          >
+            Shorten It!
+          </button>
+        </div>
       </form>
     </div>
   );

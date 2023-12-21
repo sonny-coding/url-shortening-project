@@ -10,8 +10,8 @@ export default function App() {
   return (
     <div className="w-full px-2 py-3 font-poppins bg-[#EFF1F7]">
       <Nav />
-      <Hero />
-      <Shorten input={input} setInput={setInput} setRefresh={setRefresh} />
+      {/* <Hero /> */}
+      <Shorten refresh={refresh} setRefresh={setRefresh} />
       <Links
         addresses={addresses}
         setAddresses={setAddresses}
