@@ -23,9 +23,6 @@ const Shorten = ({ setRefresh }) => {
   });
 
   const onSubmit = async () => {
-    // e.preventDefault();
-
-    // console.log(getValues("input"));
     try {
       const url = "http://localhost:3000/api/url";
       const options = {
@@ -36,9 +33,9 @@ const Shorten = ({ setRefresh }) => {
         body: JSON.stringify({ address: getValues("userInput") }),
       };
       const response = await fetch(url, options);
-      const data = await response.json();
-      setRefresh(true);
-      console.log(data);
+      if (response.ok) {
+        setRefresh(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -48,37 +45,36 @@ const Shorten = ({ setRefresh }) => {
       className=" mt-10 px-6 py-6 w-full h-auto bg-[url('assets/images/bg-shorten-mobile.svg')] bg-no-repeat bg-cover bg-primary-dark-violet rounded-2xl flex items-center justify-center
     "
     >
-      <form
-        action=""
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center justify-center w-full gap-4 md:flex-row"
-      >
-        <div className="flex flex-col items-start justify-center">
+      <form action="" onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <div className="flex flex-col items-start justify-center w-full md:flex-row md:gap-4">
           <input
-            className={`w-full p-4 rounded-lg text-[16px] leading-[20px] font-medium  ${
+            className={`w-full p-4 rounded-lg text-base md:text-xl font-medium focus:outline-none focus:ring-0 ring-0 ${
               errors.userInput
-                ? "ring-2 focus:ring-secondary-red border:ring-secondary-red"
+                ? "ring-2 focus:ring-2 focus:ring-secondary-red border:ring-secondary-red placeholder:text-secondary-red"
                 : "placeholder:text-neutral-gray"
-            } focus:outline-none placeholder:text-secondary-red`}
+            }`}
             type="text"
             //   value={input}
             //   onChange={handleChange}
             placeholder="Shorten a link here..."
             {...register("userInput", { required: true })}
           />
-          <div className="self-start w-full mt-2 min-h-[30px] ">
-            <p className="text-[12px] leading-[18px] italic font-medium text-secondary-red">
+          <div className="md:hidden self-start w-full mt-2 min-h-[20px]">
+            <p className="text-xs italic font-medium text-secondary-red">
               {errors.userInput?.message}
             </p>
           </div>
-        </div>
-        <div className="flex items-center justify-center w-auto h-full text-center">
           <button
-            className={`w-full md:w-[188px] p-4 text-white rounded-lg bg-primary-cyan text-[18px] leading-[20px] font-bold`}
+            className={`w-full md:w-[188px] p-4 text-white rounded-lg bg-primary-cyan text-[18px] leading-[20px] md:text-xl font-bold mt-2 md:mt-0`}
             type="submit"
           >
             Shorten It!
           </button>
+        </div>
+        <div className="hidden md:block self-start mt-2 min-h-[24px] ">
+          <p className="text-base italic font-medium text-secondary-red">
+            {errors.userInput?.message}
+          </p>
         </div>
       </form>
     </div>

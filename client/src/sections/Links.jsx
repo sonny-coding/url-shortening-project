@@ -39,21 +39,25 @@ const Links = ({ addresses, setAddresses, refresh, setRefresh }) => {
             key={address._id}
             className="flex flex-col items-center justify-center w-full p-4 bg-white rounded-lg"
           >
-            <div className="flex flex-col items-center justify-center w-full divide-y-[1px] text-[16px] leading-[36px] font-medium text-center [&>*]:w-full">
-              <p className="text-neutral-dark-violet">{address.long}</p>
-              <p className="text-primary-cyan">{address.short}</p>
+            <div className="flex flex-col md:flex-row md:justify-end md:gap-5 items-center justify-center w-full text-[16px] leading-[36px] md:text-[20px] md:leading-[36px] font-medium text-center [&>*]:w-full">
+              <p className="text-neutral-dark-violet md:text-start md:overscroll-auto">
+                {address.long}
+              </p>
+              <p className="border-neutral-gray border-t-[1px] md:border-t-0 text-primary-cyan md:text-end">
+                {address.short}
+              </p>
+              <button
+                onClick={() => {
+                  copy(address.short);
+                  setIsCopiedLink(address._id);
+                }}
+                className={`w-full md:max-w-[100px] mt-2 md:mt-0 py-2 md:py-3 text-base font-bold text-white rounded-lg bg-primary-cyan ${
+                  address._id === isCopiedLink ? "opacity-50" : "opacity-100"
+                }`}
+              >
+                {address._id === isCopiedLink ? "Copied!" : "Copy"}
+              </button>
             </div>
-            <button
-              onClick={() => {
-                copy(address.short);
-                setIsCopiedLink(address._id);
-              }}
-              className={`w-full py-3 text-base font-bold text-white rounded-lg bg-primary-cyan ${
-                address._id === isCopiedLink ? "opacity-50" : "opacity-100"
-              }`}
-            >
-              {address._id === isCopiedLink ? "Copied!" : "Copy"}
-            </button>
           </div>
         );
       })}
