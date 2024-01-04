@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import userModel from "../mongodb/models/user";
+import userModel from "../mongodb/models/user.js";
 
 const router = express.Router();
 
@@ -20,7 +20,9 @@ router.route("/").post(async (req, res) => {
       return res.status(500).json({ message: "user cannot be created" });
     } else {
       console.log("user has been created ");
-      return res.status(200).json({ message: "user has been created" });
+      return res
+        .status(200)
+        .json({ message: "user has been created", user: newUser });
     }
   } catch (error) {
     console.log(error);

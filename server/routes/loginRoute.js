@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import express from "expresss";
-import userModel from "../mongodb/models/user";
+import express from "express";
+import userModel from "../mongodb/models/user.js";
 
 const router = express.Router();
 
 router.route("/").post(async (req, res) => {
   const { username, password } = req.body;
-  const user = userModel.findOne({ username });
+  const user = await userModel.findOne({ username });
   if (!user) {
     return res.status(401).send("Invalid username");
   }
